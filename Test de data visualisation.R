@@ -4,7 +4,7 @@ library(leaflet)
 ### Initialisation ###
 ######################
 
-apiKey <- "052894e1-346e-412f-933f-6a68ee93d981"
+apiKey <- "e6f6cfad-a662-4589-b060-1d7eed6d88a3"
 
 # Lien des tuiles Stadia Maps pour les fonds de carte (Autres URL disponibles ici : https://stadiamaps.com/themes/)
 ALIDADE_SMOOTH_TILES_URL <- "https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png?api_key="
@@ -55,14 +55,14 @@ leafletMap <- leaflet(populationData) %>%
                    popup = ~paste(region, " - pop :", population)) %>%
   
   # On ajoute une ligne entre Île-de-France et l'Occitanie    
-  addPolylines(lng = c(populationData[8,"lng"], populationData[11,"lng"]),
-             lat = c(populationData[8,"lat"], populationData[11,"lat"]),
+  addPolylines(lng = c(populationData[populationData$region=="Île-de-France","lng"], populationData[populationData$region=="Occitanie","lng"]),
+             lat = c(populationData[populationData$region=="Île-de-France","lat"], populationData[populationData$region=="Occitanie","lat"]),
              color = "red", opacity = 0.5,
              weight = 2) %>%
 
   # On ajoute un marqueur sur Bretagne
-  addMarkers(lng = populationData[3,"lng"],
-             lat = populationData[3,"lat"],
+  addMarkers(lng = populationData[populationData$region=="Bretagne","lng"],
+             lat = populationData[populationData$region=="Bretagne","lat"],
              popup = "Bretagne")
 
 # On affiche la carte
@@ -122,14 +122,14 @@ server <- function(input, output) {
                        popup = ~paste(region, " - pop :", population)) %>%
       
       # On ajoute une ligne entre Île-de-France et l'Occitanie    
-      addPolylines(lng = c(populationData[8,"lng"], populationData[11,"lng"]),
-                   lat = c(populationData[8,"lat"], populationData[11,"lat"]),
+      addPolylines(lng = c(populationData[populationData$region=="Île-de-France","lng"], populationData[populationData$region=="Occitanie","lng"]),
+                   lat = c(populationData[populationData$region=="Île-de-France","lat"], populationData[populationData$region=="Occitanie","lat"]),
                    color = "red", opacity = 0.5,
                    weight = 2) %>%
       
       # On ajoute un marqueur sur Bretagne
-      addMarkers(lng = populationData[3,"lng"],
-                 lat = populationData[3,"lat"],
+      addMarkers(lng = populationData[populationData$region=="Bretagne","lng"],
+                 lat = populationData[populationData$region=="Bretagne","lat"],
                  popup = "Bretagne")
   })
 }
